@@ -20,26 +20,42 @@ $list= sel_board_list();
 </head>
 <body>
     <div>
-        <?php if(isset($_SESSION["login_user"])) { ?>
-            <a href="../board/write.php">글쓰기</a>
-            <a href="../user/logout.php">로그아웃</a> </div>
-        <?php } else { ?>
-            <div> <a href="../user/login.php">로그인</a> </div>
-            <div> <a href="../user/join.php">회원가입</a> </div>
-        <?php } ?>
+        <header>
+            <div>
+                <?php if(isset($_SESSION["login_user"])) { ?>
+                    <a href="../board/write.php">글쓰기</a>
+                    <a href="../user/logout.php">로그아웃</a> </div>
+                <?php } else { ?>
+                    <div> <a href="../user/login.php">로그인</a> </div>
+                    <div> <a href="../user/join.php">회원가입</a> </div>
+                <?php } ?>
+            </div>
+        </header>
+        <div class="top"><h2>게시판</h2></div>
+        <table>
+            <thead>
+                <tr>
+                    <th width=100>Post ID</th>
+                    <th width=300>내용</th>
+                    <th width=120>작성자</th>
+                    <th width=200>작성일</th>
+                    <!-- <th width=70>조회수</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($list as $item) { ?>
+                    <tr>
+                        <td><?=$item["b_id"]?></td>
+                        <td><a href="detail.php?b_id=<?=$item["b_id"]?>"><?=$item["b_title"]?></a></td>
+                        <td><?=$item["u_nick"]?></td>
+                        <td><?=$item["b_date"]?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        <center>
+            <button class="no" onclick="location.href='../admin/upload.php'">Upload</button>        
+        </center>
     </div>
-    <div class="top"><h2>게시판</h2></div>
-    <table>
-        <tr>
-            <th width=100>Post ID</th>
-            <th width=300>내용</th>
-            <th width=120>작성자</th>
-            <th width=200>작성일</th>
-            <th width=70>조회수</th>
-        </tr>
-    </table>
-    <center>
-        <button class="no" onclick="location.href='../admin/upload.php'">Upload</button>        
-    </center>
 </body>
 </html>

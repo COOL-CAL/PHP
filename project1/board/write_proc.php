@@ -1,14 +1,14 @@
 <?php
-    include_once '..db/db_board.php';
+    include_once '../db/db_board.php';
 
     session_start();
-    $b_id = $_POST['b_id'];
-    $b_ctnt = $_POST['b_ctnt'];
-    $login_user = $_SESSION['login_user'];
+    $b_title = $_POST["b_title"];
+    $b_ctnt = $_POST["b_ctnt"];
+    $login_user = $_SESSION["login_user"];
     $u_id = $login_user["u_id"];
 
     $param = [
-        "b_id" => $b_id,
+        "b_title" => $b_title,
         "b_ctnt" => $b_ctnt,
         "u_id" => $u_id
     ];
