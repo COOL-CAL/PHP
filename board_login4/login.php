@@ -9,8 +9,8 @@
 <body>
     <h1>LOGIN</h1>
     <form action="login_proc.php" method="post">
-        <div><input type="text" name="uid" placeholder="ID"></div>
-        <div><input type="password" name="upw" placeholder="PASSWORD"></div>
+        <div><input type="text" name="uid" placeholder="ID" value="mic"></div>
+        <div><input type="password" name="upw" placeholder="PASSWORD" value="1234"></div>
         <div><input type="submit" value="LOGIN"></div>
     </form>
     <a href="join.php">SIGN IN</a>

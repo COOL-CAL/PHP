@@ -32,7 +32,7 @@
         $row_count = $param["row_count"];
 
         $sql = "SELECT A.i_board, A.title, A.created_at
-                     , B.nm
+                     , B.nm, B.i_user, B.profile_img
                   FROM t_board A
                  INNER JOIN t_user B
                     ON A.i_user = B.i_user
@@ -136,11 +136,11 @@
 
         $where = []; //sql검색 시 열(속성) 이름
         $sql = "SELECT A.i_board, A.title, A.ctnt, A.created_at
-                       , B.i_user, B.nm
-                    FROM t_board A
-                   INNER JOIN t_user B
-                      ON A.i_user = B.i_user
-                   WHERE ";
+                     , B.i_user, B.nm
+                  FROM t_board A
+                 INNER JOIN t_user B
+                    ON A.i_user = B.i_user
+                 WHERE ";
                    //중복되는 열만 a,b로 나눠 적어줌
 
         switch($search_select) {

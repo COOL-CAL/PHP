@@ -1,20 +1,38 @@
 <?php
 include_once "db.php";
 
+// index.php (paging)
+function sel_paging_count(&$param) {
+   $row_count = $param["row_count"];
+        $sql = "SELECT CEIL(COUNT(b_id) / $row_count) as cnt
+                FROM board_t";
+
+        $conn = get_conn();
+        $result = mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        $row = mysqli_fetch_assoc($result);
+        return $row["cnt"];
+}
+
 // index.php
-function sel_board_list() {
-    $sql=
-    "   SELECT B.b_id, B.b_ctnt, B.b_date
-             , U.u_nick
-          FROM board_t B
-         INNER JOIN user_t U
-            ON B.u_id = U.u_id
-         ORDER BY B.b_id DESC
-    ";
-    $conn= get_conn();
-    $result= mysqli_query($conn, $sql);
-    mysqli_close($conn);
-    return $result;
+function sel_board_list($param) {
+   $start_idx = $param["start_idx"];
+   $row_count = $param["row_count"];
+
+   $conn= get_conn();
+   $sql="SELECT B.b_id, B.b_title, B.b_date, B.b_count
+              , U.u_nick, U.u_id
+           FROM board_t B
+          INNER JOIN user_t U
+             ON B.u_id = U.u_id
+          ORDER BY B.b_id DESC
+          LIMIT $start_idx, $row_count
+         ";
+   
+   $result = mysqli_query($conn, $sql);
+   // $list = mysqli_fetch_assoc($result);
+   mysqli_close($conn);
+   return $result;
 }
 
 // upload_proc.php
@@ -55,12 +73,12 @@ function ins_board(&$param) {
 // detail.php
 function sel_board(&$param) {
    $b_id = $param["b_id"];
-   $sql = "SELECT B.b_title, B.b_ctnt, B.b_date
+   $sql = "SELECT B.b_title, B.b_ctnt, B.b_date, B.b_count
                 , U.u_id, U.u_nick
              FROM board_t B
             INNER JOIN user_t U
                ON B.u_id = U.u_id
-            WHERE B.b_id = $b_id";
+            WHERE B.b_id = ${b_id}";
    $conn = get_conn();
    $result = mysqli_query($conn, $sql);
    mysqli_close($conn);
@@ -103,4 +121,129 @@ function sel_prev_board(&$param) {
        return $row["b_id"];
    }
    return 0;
+}
+
+// index / detail.php (조회수)
+function count_board(&$param) {
+   $conn = get_conn();
+   $b_id = $param["b_id"];
+   
+   $sql = "UPDATE board_t
+              SET b_count = b_count + 1
+            WHERE b_id = ${b_id}";
+
+   $result = mysqli_query($conn, $sql);
+   return $result;
+   mysqli_close($conn);
+}
+
+// mod_proc.php
+function upd_board(&$param) {
+   $b_id = $param["b_id"];
+   $b_title = $param["b_title"];
+   $b_ctnt = $param["b_ctnt"];
+   $u_id = $param["u_id"];
+
+   $sql = "UPDATE board_t
+              SET b_title = '$b_title'
+                , b_ctnt = '$b_ctnt'
+            WHERE b_id = $b_id
+              AND u_id = $u_id";
+   
+   $conn = get_conn();
+   $result = mysqli_query($conn, $sql);
+   mysqli_close($conn);
+   return $result;
+}
+
+// del.php
+function del_board(&$param) {
+   $b_id = $param["b_id"];
+   $u_id = $param["u_id"];
+
+   $sql = "DELETE FROM board_t
+            WHERE b_id = $b_id
+              AND u_id = $u_id";
+
+   $conn = get_conn();
+   $result = mysqli_query($conn, $sql);
+   mysqli_close($conn);
+   return $result;
+}
+
+// index.php (search)
+function search_board(&$param) {
+   $conn = get_conn();
+   
+   $search_select = $param["search_select"];
+   $search_input_txt = $param["search_input_txt"];
+   $textArray = explode(" ", $search_input_txt);
+
+   $where = [];
+   $sql = "SELECT B.b_id, B.b_title, B.b_ctnt, B.b_date, B.b_count
+                , U.u_id, U.u_nick
+             FROM board_t B
+            INNER JOIN user_t U
+               ON B.u_id = U.u_id
+            WHERE ";
+
+   switch($search_select) {
+       case "search_writer":
+           $where += ["U.u_nick"];
+           break;
+       case "search_title":
+           $where += ["B.b_title"];
+           break;
+       case "search_ctnt":
+           $where += ["B.b_title", "B.b_ctnt"];
+           break;
+       default:
+   }
+
+  for($i = 0; $i < count($textArray); $i++) {
+      for($j=0; $j < count($where); $j++) {
+          $sql = $sql . " $where[$j] LIKE '%$textArray[$i]%' ";
+
+           if(($i !== count($textArray)-1) || ($j !== count($where) -1)) {
+               $sql = $sql . "OR";
+           }
+       }
+   }
+
+   $result = mysqli_query($conn, $sql);
+   mysqli_close($conn);
+   return $result;
+}
+
+function sel_detail(&$param) {
+   $s_id = $param['s_id'];
+
+   $sql = 
+   "SELECT S.*, G.gal_id , G.gal_nm
+    FROM show_t S
+    INNER JOIN gallery_t G
+    ON S.gal_id = G.gal_id
+    WHERE S.s_id = '$s_id'
+   ";
+   $conn = get_conn();
+   $result = mysqli_query($conn, $sql);
+   mysqli_close($conn);
+   return mysqli_fetch_assoc($result);
+}
+
+
+function sel_show_list($param){
+   $s_id = $param['s_id'];
+
+   $sql = 
+   "SELECT S.s_id, S.gal_id, S.s_nm, S.s_s_date, S.s_e_date, S.s_post, P.pic_img
+    FROM show_t S
+    INNER JOIN picture_t P
+    ON S.s_id = P.s_id
+    WHERE S.s_id = '$s_id'
+   ";
+   $conn = get_conn();
+   $result = mysqli_query($conn, $sql);
+   mysqli_close($conn);
+   return $result;
 }

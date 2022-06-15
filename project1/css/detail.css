@@ -1,0 +1,37 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    text-align: center; 
+}
+
+body div:first-child {
+    font-size: 20px;
+    font-weight: bolder;
+    color: rgb(17, 92, 15);
+    font-style: none;
+
+}
+
+body div:first-child :hover {
+    color: green;
+    cursor: pointer;
+}
+
+/* .btn {
+    font-weight: bolder;
+    color: #00491E;
+    height: 30px;
+    width: 65px;
+    text-align: center;
+    background-color: white;
+    border: 2px solid #00491E;
+    border-radius: 11px;
+    margin-right: 10px;
+} */

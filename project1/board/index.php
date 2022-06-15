@@ -3,12 +3,38 @@ include_once "../db/db_board.php";
 
 session_start();
 $u_nick= "";
+
+$page = 1;
+
+if(isset($_GET["page"])) {
+    $page = intval($_GET["page"]);
+}
+
 if(isset($_SESSION["login_user"])) {
     $login_user= $_SESSION["login_user"];
     $u_nick= $login_user["u_nick"];
 }
-$list= sel_board_list();
+
+$row_count = 5;
+$param = [
+    "row_count" => $row_count,
+    "start_idx" => ($page - 1) * $row_count
+];
+
+$paging_count = sel_paging_count($param);
+$list= sel_board_list($param);
+
+if(isset($_POST['search_input_txt']) && $_POST['search_input_txt'] !="") {
+    $param += [
+        "search_select" => $_POST["search_select"],
+        "search_input_txt" => $_POST["search_input_txt"],
+    ];
+
+    $list = search_board($param);
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,42 +46,73 @@ $list= sel_board_list();
 </head>
 <body>
     <div>
+        <?php include_once "../main/header_1.php" ?>
         <header>
             <div>
                 <?php if(isset($_SESSION["login_user"])) { ?>
-                    <a href="../board/write.php">글쓰기</a>
-                    <a href="../user/logout.php">로그아웃</a> </div>
+                    <a class="user" href="../board/write.php">글쓰기</a>
+                    <a class="user" href="../user/logout.php">로그아웃</a> </div>
                 <?php } else { ?>
-                    <div> <a href="../user/login.php">로그인</a> </div>
-                    <div> <a href="../user/join.php">회원가입</a> </div>
+                    <div> <a class="user" href="../user/login.php">로그인</a> </div>
+                    <div> <a class="user" href="../user/join.php">회원가입</a> </div>
                 <?php } ?>
             </div>
         </header>
-        <div class="top"><h2>게시판</h2></div>
-        <table>
-            <thead>
-                <tr>
-                    <th width=100>Post ID</th>
-                    <th width=300>내용</th>
-                    <th width=120>작성자</th>
-                    <th width=200>작성일</th>
-                    <!-- <th width=70>조회수</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($list as $item) { ?>
+        <main>
+            <div class="top"><h2>게시판</h2></div>
+            <table>
+                <thead>
                     <tr>
-                        <td><?=$item["b_id"]?></td>
-                        <td><a href="detail.php?b_id=<?=$item["b_id"]?>"><?=$item["b_title"]?></a></td>
-                        <td><?=$item["u_nick"]?></td>
-                        <td><?=$item["b_date"]?></td>
+                        <th width=100>Post ID</th>
+                        <th width=300>제목</th>
+                        <th width=120>작성자</th>
+                        <th width=200>작성일</th>
+                        <th width=70>조회수</th>
                     </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($list as $item) { ?>
+                        <tr>
+                            <td><?=$item["b_id"]?></td>
+                            <td><a href="detail.php?b_id=<?=$item["b_id"]?>"><?=$item["b_title"]?></a></td>
+                            <td><?=$item["u_nick"]?></td>
+                            <td><?=$item["b_date"]?></td>
+                            <td><?=$item["b_count"]?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+            <div>
+                <?php for($i=1; $i<=$paging_count; $i++) { ?>
+                    <span class="<?=$i===$page ? "pageSelected" : ""?>">
+                        <a href="index.php?page=<?=$i?>"><?=$i?></a>
+                    </span>
                 <?php } ?>
-            </tbody>
-        </table>
-        <center>
-            <button class="no" onclick="location.href='../admin/upload.php'">Upload</button>        
-        </center>
+            </div>
+        </main>
+        <form action="index.php" method="post">
+            <div>
+            <select name="search_select">
+                    <option value="search_writer">NAME</option>
+                    <option value="search_title">TITLE</option>
+                    <option value="search_ctnt">TITLE + CONTENT</option>
+                </select>
+                <div>
+                    <input type="text" name="search_input_txt">
+                    <input type="submit" value="SEARCH">
+                </div>
+            </div>
+        </form>
+            <?php if($login_user["u_id"] == 1) { ?>
+                <center>
+                    <button class="no" onclick="location.href='../admin/upload.php'">Upload</button>        
+                </center>
+            <?php } else { ?>
+                <center>
+                    <button class="no" onclick="location.href='../board/write.php'">글쓰기</button>
+                </center>
+            <?php } ?>
+            <?php include_once "../main/footer.php" ?>
     </div>
 </body>
 </html>

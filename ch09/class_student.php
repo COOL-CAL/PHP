@@ -6,6 +6,11 @@
         public $studentId;
         public $studentName;
 
+        function __construct()
+        {
+            print "construct! <br>";
+        }
+
         public function printStudent($id, $name) {
             print "ID : {$id}<br>";
             print "Name : {$name}<br>";

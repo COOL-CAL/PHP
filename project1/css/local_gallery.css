@@ -1,0 +1,48 @@
+* {
+    margin-top: 32px;
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+.gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gallery tr {
+    padding: 0px 20px;
+}
+
+.gallery tr td {
+    /* border: 1px solid #00491E; */
+    width: 363px;
+}
+
+.gallery_pic {
+    /* height: 420px; */
+    text-align: center;
+}
+
+.gallery_nm {
+    height: 45px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bolder;
+    color: #00491E;
+}
+
+.gallery_intro {
+    /* height: 225px; */
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: #00491E;
+}
+
+a:hover {
+    color: green;
+    text-decoration: underline;
+}

@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    text-align: center; 
+}
+
+h2 {
+    margin: 3%;
+}
+
+form > input, textarea {
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 10px auto;
+    /* text-align: center; */
+    border: 2px solid rgb(17, 92, 15);
+    width: 50%;
+    height: 200px;
+    border-radius: 11px;
+}
+
+form:last-child > input {
+    box-sizing: border-box;
+    
+}

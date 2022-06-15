@@ -22,7 +22,6 @@
     ];
     $paging_count = sel_paging_count($param);
     $list = sel_board_list($param);
-    // $list = search_board($param);
 
     if(isset($_POST['search_input_txt']) && $_POST['search_input_txt'] !="") {
         $param += [ //+= 배열에 이어주는 역할
@@ -53,6 +52,15 @@
                 <?php if(isset($_SESSION["login_user"])) { ?>
                     <a href="write.php">WRITE</a>
                     <a href="logout.php">LOGOUT</a>
+                    <a href="profile.php">PROFILE
+                        <?php
+                            $session_img = $_SESSION["login_user"]["profile_img"];
+                            $profile_img = $session_img == null ? "basic.jpg" : $_SESSION["login_user"]["i_user"] . "/" . $session_img;
+                        ?>
+                        <div class="circular__img wh40">
+                            <img src="/board_login4/img/profile/<?=$profile_img?>" width="100">
+                        </div>
+                    </a>
                 <?php } else { ?>
                     <a href="login.php">LOGIN</a>
                 <?php } ?>
@@ -71,10 +79,17 @@
                 </thead>
                 <tbody>
                     <?php foreach($list as $item) { ?>
+                        <?php
+                            $row_profile_img = $item["profile_img"] == null ? "basic.jpg" : $item["i_user"] . "/" . $item["profile_img"];
+                        ?>
                         <tr>
                             <td><?=$item["i_board"]?></td>
                             <td><a href="detail.php?i_board=<?=$item["i_board"]?>"><?=$item["title"]?></a></td>
-                            <td><?=$item["nm"]?></td>
+                            <td><?=$item["nm"]?>
+                                <div class="circular__img wh40">
+                                    <img src="/board_login4/img/profile/<?=$row_profile_img?>" width="100">
+                                </div>
+                            </td>
                             <td><?=$item["created_at"]?></td>
                         </tr>
                     <?php } ?>

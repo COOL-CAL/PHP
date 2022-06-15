@@ -4,7 +4,7 @@
         private $color;
         private $price;
 
-        function __construct($name, $color, $price) { //setter 없이 값을 넣을 때: 값을 수정 불가.
+        function __construct($name=null, $color=null, $price=null) { //setter 없이 값을 넣을 때: 값을 수정 불가.
             $this->name = $name;
             $this->color = $color;
             $this->price = $price;

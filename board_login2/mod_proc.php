@@ -16,6 +16,7 @@
     ];
 
     $result = upd_board($param);
+    print "result: " . $result;
     if($result) {
         header("location: detail.php?i_board=$i_board");
     }
