@@ -1,0 +1,14 @@
+a { font-size: 9pt; text-decoration: none; }
+a:link { color: #1A1F7A; }
+a:visited { color: #6196ff; }
+a:hover { color: #a12ba0; text-decoration: underline; }
+a:active { color: #ff4e02; text-decoration: underline; }
+
+font { font-family: '고딕'; }
+table { font-family: '고딕'; }
+td { line-height: 15px; }
+th { font-weight: bold; color: white; }
+small { line-height: 18px; font-family: '고딕'; }
+strong { font-size: 10pt; line-height: 18px; font-family: '고딕'; font-weight: bold;}
+ul { line-height: 16px; font-family: '고딕'; }
+select { font-family: '고딕'; }
