@@ -18,5 +18,4 @@
                 <a href='update_member.php'>My info edit</a>
             ");
         }
-        echo ("<a href='logout.php'>Logout</a>");
     }
