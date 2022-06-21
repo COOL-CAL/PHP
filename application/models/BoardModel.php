@@ -13,7 +13,24 @@
             return $stmt->fetchAll(PDO::FETCH_OBJ); //fetch_obj 들어간 빼면 객체 아닌 배열이 넘어옴 
         }
 
-        public function selBoard() {
+        public function selBoard(&$param) {
+            $sql = "SELECT A.i_board, A.title, A.ctnt, A.created_at,
+                           B.nm
+                      FROM t_board A
+                     INNER JOIN t_user B
+                        ON A.i_user = B.i_user
+                     WHERE i_board =:i_board";
+            $stmt = $this->pdo->prepare($sql); //prepared statement: 문장 완성, 쿼리문 실행
+            $stmt->bindValue(':i_board', $param["i_board"]); //bindValue: 값을 넣어줌(정수, '문자열' 자동으로)
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        }
 
+        public function delBoard(&$param) {
+            $sql = "DELETE FROM t_board
+                     WHERE i_board =:i_board";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':i_board', $param["i_board"]);
+            $stmt->execute();
         }
     }
