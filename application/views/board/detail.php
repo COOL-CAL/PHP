@@ -4,6 +4,7 @@
 <body>
     <h1>Detail</h1>
     <div><button id="btnDel" data-i_board="<?=$this->data->i_board?>">Delete</button></div>
+        <a href="mod?i_board=<?=$this->data->i_board?>"><button>Edit</button></a>
         <div>No. : <?=$this->data->i_board?></div>
         <div>Title : <?=$this->data->title?></div>
         <div>Content : <?=$this->data->ctnt?></div>
