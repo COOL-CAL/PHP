@@ -140,6 +140,3 @@
         mysqli_close($conn);
         return $result;
     }
-
-
-

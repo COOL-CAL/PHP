@@ -36,9 +36,24 @@
             $model = new BoardModel();
             $param = ["i_board" => $i_board];
             $this->addAttribute("data", $model->selBoard($param));
+            $this->addAttribute(_TITLE, "Edit");
             $this->addAttribute(_HEADER, $this->getView("template/header.php"));
             $this->addAttribute(_MAIN, $this->getView("board/mod.php"));
             $this->addAttribute(_FOOTER, $this->getView("template/footer.php"));
             return "template/t1.php";
+        }
+
+        public function modProc() {
+            $i_board = $_POST["i_board"];
+            $title = $_POST["title"];
+            $ctnt = $_POST["ctnt"];
+            $param = [
+                "i_board" => $i_board,
+                "title" => $title,
+                "ctnt" => $ctnt
+            ];
+            $model = new BoardModel;
+            $model->updBoard($param);
+            return "redirect:/board/detail?i_board={$i_board}";
         }
     }

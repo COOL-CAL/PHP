@@ -26,6 +26,17 @@
             return $stmt->fetch(PDO::FETCH_OBJ);
         }
 
+        public function updBoard(&$param) {
+            $sql = "UPDATE t_board
+                       SET title = :title, ctnt = :ctnt
+                     WHERE i_board = :i_board";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':title', $param["title"]);
+            $stmt->bindValue(':ctnt', $param["ctnt"]);
+            $stmt->bindValue(':i_board', $param["i_board"]);
+            $stmt->execute();
+        }
+
         public function delBoard(&$param) {
             $sql = "DELETE FROM t_board
                      WHERE i_board =:i_board";

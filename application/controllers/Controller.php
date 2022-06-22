@@ -13,7 +13,7 @@ abstract class Controller {
 
     protected function getView($view) {
         if(strpos($view, "redirect:") === 0) { //strpos : string position
-            header("Location: http://" . _HOST . substr($view, 9));
+            header('Location: ' . substr($view, 9));
             return;
         }
         return _VIEW . $view; // $도 없고(변수) 문자열 쌍따옴표도 없으면 상수(_VIEW)
