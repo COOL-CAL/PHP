@@ -1,6 +1,8 @@
 <?php
 namespace application\controllers; //이게 없으면 파일 경로로 적어줘야 함.
 
+include_once "application/utils/SessionUtils.php";
+
 abstract class Controller {
     public function __construct($action) {        
         $view = $this->$action();

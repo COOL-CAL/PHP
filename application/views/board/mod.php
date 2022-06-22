@@ -5,7 +5,7 @@
         <div align="center">Title : <input type="text" name="title" value="<?=$this->data->title?>"></div>
         <div align="center">Content : <textarea name="ctnt" cols="30" rows="10"><?=$this->data->ctnt?></textarea></div>
         <div>
-            <input type="submit" value="Edit" id="btnEd">
+            <input type="submit" value="Edit">
         </div>
     </form>
 </div>

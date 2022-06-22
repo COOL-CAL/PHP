@@ -3,6 +3,16 @@
     use PDO; //같은 namespace면 use 적을 필요 없음.
 
     class BoardModel extends Model {
+        public function insBoard(&$param) {
+            $sql = "INSERT INTO t_board (title, ctnt, i_user)
+                    VALUES (:title, :ctnt, :i_user)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':title', $param["title"]);
+            $stmt->bindValue(':ctnt', $param["ctnt"]);
+            $stmt->bindValue(':i_user', $param["i_user"]);
+            $stmt->execute();
+        }
+
         public function selBoardList() {
             $sql = "SELECT i_board, title, created_at
                       FROM t_board

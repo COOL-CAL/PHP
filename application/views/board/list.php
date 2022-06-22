@@ -2,6 +2,7 @@
 <html lang="en">
 <?php include_once "application/views/template/head.php"; ?>
 <body>
+    <h3></h3>
     <h1>List</h1>
     <table>
         <thead>

@@ -5,6 +5,7 @@
 
     //php bcrypt (암호화)
     class UserController extends Controller {
+        
         public function join() {
             $this->addAttribute(_TITLE, "Sign Up");
             $this->addAttribute(_HEADER, $this->getView("template/header.php"));
@@ -52,6 +53,13 @@
                 print "Password is not correct.";
                 $this->login();
             }
+            flash(_LOGINUSER, $dbUser);
+
+            return "redirect:/board/list";
+        }
+
+        public function logout() {
+            flash(_LOGINUSER);
             return "redirect:/board/list";
         }
     }
