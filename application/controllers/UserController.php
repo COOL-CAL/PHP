@@ -30,7 +30,7 @@
         }
 
         public function login() {
-            $this->addAttribute(_TITLE, '로그인');
+            $this->addAttribute(_TITLE, 'Login');
             $this->addAttribute(_HEADER, $this->getView('template/header.php'));
             $this->addAttribute(_MAIN, $this->getView('user/login.php'));
             $this->addAttribute(_FOOTER, $this->getView('template/footer.php'));

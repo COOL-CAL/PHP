@@ -6,9 +6,9 @@
         public function list() {
             $model = new BoardModel();
             // $this->list = $model->selBoardList();
-            $this->addAttribute("title", "List");
+            $this->addAttribute("title", "List"); //addAttribute: 속성 추가
             $this->addAttribute("list", $model->selBoardList());
-            $this->addAttribute("js", ["board/list"]);
+            $this->addAttribute("js", ["board/list"]); //자바스크립트 추가, ["파일 주소값"]
             $this->addAttribute(_HEADER, $this->getView("template/header.php"));
             $this->addAttribute(_MAIN, $this->getView("board/list.php"));
             $this->addAttribute(_FOOTER, $this->getView("template/footer.php"));
